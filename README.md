@@ -5,7 +5,7 @@ Bare-bones spring boot microservice used for demo purposes. Not supported - no w
 ## Deploy locally:
 - Install Maven and Java 8
 - Clone repo
-- Run:
-`mvn package`
+- Run:  
+`mvn package`  
 `./mvnw spring-boot:run`
 - Navigate to: `http://localhost:8080/tax-calc`
