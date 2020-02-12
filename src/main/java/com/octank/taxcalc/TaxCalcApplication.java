@@ -15,8 +15,8 @@ import org.springframework.context.annotation.Bean;
 public class TaxCalcApplication extends SpringBootServletInitializer {
 
 	@Override
-	protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
-		return builder.sources(TaxCalcApplication.class);
+	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
+		return application.sources(TaxCalcApplication.class);
 	}
 	public static void main(String[] args) {
 		SpringApplication.run(TaxCalcApplication.class, args);
