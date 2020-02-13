@@ -26,3 +26,14 @@ Bare-bones spring boot microservice used for demo purposes. Not supported - no w
 `./deploy/kubernetes/ecr-login.sh`   
 `kubectl apply -f deploy/kubernetes/kube-deploy.yaml`
 - Navigate to: `http://localhost:30001/tax-calc/`
+
+## Generate some load:
+```bash
+x=0;
+while [ $x -le 1000 ];
+do
+   curl http://localhost:8080/tax-calc/;
+   echo " ";
+   x=$(( $x + 1 ));
+done
+```
