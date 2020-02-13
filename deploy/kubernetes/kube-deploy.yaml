@@ -34,15 +34,15 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: tax-calc
+  name: tax
   labels:
-    name: tax-calc
+    name: tax
   namespace: sock-shop
 spec:
   type: NodePort
   ports:
   - port: 8080
     targetPort: 8080
-    nodePort: 30001
+    nodePort: 30012
   selector:
     name: tax-calc

@@ -8,14 +8,14 @@ Bare-bones spring boot microservice used for demo purposes. Not supported - no w
 
 ## Run locally via Maven
 - Run: `./mvnw spring-boot:run`
-- Navigate to: `http://localhost:8080/tax-calc`
+- Navigate to: `http://localhost:8080/tax-calc/`
 
 ## Build Docker container 
 - Run: `./mvnw clean package && docker build --tag=tax-calc .`
 
 ## Run locally via Docker with Wildfly
 - Run: `docker run -it -p 8080:8080 tax-calc`  
-- Navigate to: `http://localhost:8080/tax-calc`
+- Navigate to: `http://localhost:8080/tax-calc/`
 
 ## Deploy to Kubernetes with Wildfly
 - Push image to ECR:  
