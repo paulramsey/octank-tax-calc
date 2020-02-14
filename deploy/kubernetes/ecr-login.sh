@@ -1,5 +1,5 @@
 # source: https://medium.com/@damitj07/how-to-configure-and-use-aws-ecr-with-kubernetes-rancher2-0-6144c626d42c
-ACCOUNT=715977739758
+ACCOUNT=<aws-account-number>
 REGION=us-east-2
 SECRET_NAME=${REGION}-ecr-registry
 EMAIL=dummy.email@email.com

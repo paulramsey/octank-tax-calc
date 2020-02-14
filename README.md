@@ -1,17 +1,24 @@
 # octank-tax-calc
 
-Bare-bones spring boot microservice used for demo purposes. Not supported - no warranty explicit or implied.
+Bare-bones Spring Boot microservice used for demo purposes. Not supported - no warranty explicit or implied.
+
+Runs cipher routines to simulate processing time and returns randomized taxRate and totalTax in JSON format:  
+```json
+{"taxRate": "0.0528", "totalTax": "54.74"}
+```
 
 ## Pre-requisites
 - Install Maven and Java 8
+- Install and configure AWS CLI 
 - Clone repo
+- Update `<aws-account-number>` with your real AWS account number in the deploy steps below and in `./deploy/kubernetes/ecr-login.sh`. Change the AWS region throughout if desired.
 
 ## Run locally via Maven
-- Run: `./mvnw spring-boot:run`
+- From project root, run: `./mvnw spring-boot:run`
 - Navigate to: `http://localhost:8080/tax-calc/`
 
 ## Build Docker container 
-- Run: `./mvnw clean package && docker build --tag=tax-calc .`
+- From project root, run: `./mvnw clean package && docker build --tag=tax-calc .`
 
 ## Run locally via Docker with Wildfly
 - Run: `docker run -it -p 8080:8080 tax-calc`  
@@ -20,8 +27,8 @@ Bare-bones spring boot microservice used for demo purposes. Not supported - no w
 ## Deploy to Kubernetes with Wildfly
 - Push image to ECR:  
 `$(aws ecr get-login --no-include-email --region us-east-2)`  
-`docker tag tax-calc:latest 715977739758.dkr.ecr.us-east-2.amazonaws.com/tax-calc:latest`  
-`docker push 715977739758.dkr.ecr.us-east-2.amazonaws.com/tax-calc:latest` 
+`docker tag tax-calc:latest <aws-account-number>.dkr.ecr.us-east-2.amazonaws.com/tax-calc:latest`  
+`docker push <aws-account-number>.dkr.ecr.us-east-2.amazonaws.com/tax-calc:latest` 
 - Deploy to K8s cluster:  
 `./deploy/kubernetes/ecr-login.sh`   
 `kubectl apply -f deploy/kubernetes/kube-deploy.yaml`
