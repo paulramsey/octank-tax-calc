@@ -2,7 +2,7 @@
 
 Bare-bones Spring Boot microservice used for demo purposes. Not supported - no warranty explicit or implied.
 
-Runs cipher routines to simulate processing time and returns randomized taxRate and totalTax in JSON format:  
+Runs Pi calculations to simulate processing time and returns randomized taxRate and totalTax in JSON format:  
 ```json
 {"taxRate": "0.0528", "totalTax": "54.74"}
 ```
@@ -50,7 +50,7 @@ fi
 x=0;
 while [ $x -le $1 ];
 do
-   curl http://tax:8080/tax-calc/;
+   curl http://tax:8080/tax-calc/ &
    echo " ";
    x=$(( $x + 1 ));
 done
