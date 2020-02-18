@@ -31,7 +31,7 @@ public class TaxCalcController {
 		totalTax = totalTax * taxRate;
 		totalTax = Math.round(totalTax * 100.0) / 100.0;
 
-		String rtrn = "{\"taxRate\": \"" + String.valueOf(taxRate) + "\", \"totalTax\": \"" + String.valueOf(totalTax) + "\"}\n";
+		String rtrn = "{\"taxRate\": \"" + String.valueOf(taxRate) + "\", \"totalTax\": \"" + String.valueOf(totalTax) + "\"}";
 		//System.out.println(rtrn);
 		
 		return rtrn;

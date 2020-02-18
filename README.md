@@ -50,7 +50,7 @@ fi
 x=0;
 while [ $x -le $1 ];
 do
-   curl http://tax:8080/tax-calc/ &
+   curl -w "\n" http://tax:8080/tax-calc/ &
    echo "  ";
    x=$(( $x + 1 ));
 done
