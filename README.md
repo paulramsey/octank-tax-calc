@@ -51,7 +51,7 @@ x=0;
 while [ $x -le $1 ];
 do
    curl http://tax:8080/tax-calc/ &
-   echo " ";
+   echo "  ";
    x=$(( $x + 1 ));
 done
 ```
