@@ -24,6 +24,18 @@ Example API response:
 }
 ```
 
+Sample curl POST script:
+```bash
+curl -w "\n" \
+   -H "Accept: application/json" \
+   -H "Content-Type:application/json" \
+   -X POST \
+   --data '{"cartId": "TestUserCart", "productId": "10001", "quantity": "5", "subtotal": "108.11"}' \
+   "http://localhost:8080/tax-calc/"
+```
+
+## Generate Load
+
 To generate load, you can run a GET instead of a POST. This will run Pi calculations to simulate processing time and will return randomized taxRate and totalTax in JSON format:  
 ```json
 {
@@ -32,6 +44,28 @@ To generate load, you can run a GET instead of a POST. This will run Pi calculat
         "totalTax": "86.22"
     }
 }
+```
+
+Load generation script:
+- Place the script below in a file called `tax-calc-generate-load.sh`.
+- Call the script with a single argument that defines how many times to call the service: `./tax-calc-generate-load.sh 1000`
+
+```bash
+#!/bin/bash
+
+if [ $# -eq 0 ]
+then
+   echo "Error: You must provide an interger in position 1 to indicate the number of calls the script should make to the tax-calc service."
+   exit
+fi
+
+x=0;
+while [ $x -le $1 ];
+do
+   curl -w "\n" http://tax:8080/tax-calc/ &
+   echo "  ";
+   x=$(( $x + 1 ));
+done
 ```
 
 ## Pre-requisites
@@ -60,38 +94,6 @@ To generate load, you can run a GET instead of a POST. This will run Pi calculat
 `./deploy/kubernetes/ecr-login.sh`   
 `kubectl apply -f deploy/kubernetes/kube-deploy.yaml`
 - Navigate to: `http://localhost:30001/tax-calc/`
-
-## Sample curl POST script
-```bash
-curl -w "\n" \
-   -H "Accept: application/json" \
-   -H "Content-Type:application/json" \
-   -X POST \
-   --data '{"cartId": "TestUserCart", "productId": "10001", "quantity": "5", "subtotal": "108.11"}' \
-   "http://localhost:8080/tax-calc/"
-```
-
-## Generate some load:
-- Place the script below in a file called `tax-calc-generate-load.sh`.
-- Call the script with a single argument that defines how many times to call the service: `./tax-calc-generate-load.sh 1000`
-
-```bash
-#!/bin/bash
-
-if [ $# -eq 0 ]
-then
-   echo "Error: You must provide an interger in position 1 to indicate the number of calls the script should make to the tax-calc service."
-   exit
-fi
-
-x=0;
-while [ $x -le $1 ];
-do
-   curl -w "\n" http://tax:8080/tax-calc/ &
-   echo "  ";
-   x=$(( $x + 1 ));
-done
-```
 
 ## Run X-Ray daemon locally for development:
 ```bash
