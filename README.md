@@ -2,9 +2,36 @@
 
 Bare-bones Spring Boot microservice used for demo purposes. Not supported - no warranty explicit or implied.
 
-Runs Pi calculations to simulate processing time and returns randomized taxRate and totalTax in JSON format:  
+API accepts cart item data with subtotal and returns tax rate and total tax.
+
+Example cart data POST input:
 ```json
-{"taxRate": "0.0528", "totalTax": "54.74"}
+{
+    "cartId": "TestUserCart",
+    "productId": "10001",
+    "quantity": "5",
+    "subtotal": "108.11"
+}
+```
+
+Example API response:
+```json
+{
+    "responseObject": {
+        "totalTax": "6.648765",
+        "taxRate": "0.0615"
+    }
+}
+```
+
+To generate load, you can run a GET instead of a POST. This will run Pi calculations to simulate processing time and will return randomized taxRate and totalTax in JSON format:  
+```json
+{
+    "responseObject": {
+        "taxRate": "0.0807",
+        "totalTax": "86.22"
+    }
+}
 ```
 
 ## Pre-requisites
@@ -34,6 +61,16 @@ Runs Pi calculations to simulate processing time and returns randomized taxRate 
 `kubectl apply -f deploy/kubernetes/kube-deploy.yaml`
 - Navigate to: `http://localhost:30001/tax-calc/`
 
+## Sample curl POST script
+```bash
+curl -w "\n" \
+   -H "Accept: application/json" \
+   -H "Content-Type:application/json" \
+   -X POST \
+   --data '{"cartId": "TestUserCart", "productId": "10001", "quantity": "5", "subtotal": "108.11"}' \
+   "http://localhost:8080/tax-calc/"
+```
+
 ## Generate some load:
 - Place the script below in a file called `tax-calc-generate-load.sh`.
 - Call the script with a single argument that defines how many times to call the service: `./tax-calc-generate-load.sh 1000`
@@ -55,3 +92,23 @@ do
    x=$(( $x + 1 ));
 done
 ```
+
+## Run X-Ray daemon locally for development:
+```bash
+cd deploy/xray-local
+docker build -t xray-daemon .
+docker run \
+      --attach STDOUT \
+      -v ~/.aws/:/root/.aws/:ro \
+      -e AWS_REGION=us-east-2 \
+      --name xray-daemon \
+      -p 2000:2000/udp \
+      -p 2000:2000/tcp \
+      xray-daemon -o
+```
+
+## Deploy X-Ray daemon image to ECR
+- Push image to ECR:  
+`$(aws ecr get-login --no-include-email --region us-east-2)`  
+`docker tag xray-daemon:latest <aws-account-number>.dkr.ecr.us-east-2.amazonaws.com/xray-daemon:latest`  
+`docker push <aws-account-number>.dkr.ecr.us-east-2.amazonaws.com/xray-daemon:latest` 
