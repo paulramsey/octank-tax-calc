@@ -24,6 +24,14 @@ Example API response:
 }
 ```
 
+## Pre-requisites
+- Install Maven and Java 8
+- Install and configure AWS CLI 
+- Clone repo
+- Update `<aws-account-number>` with your real AWS account number in the deploy steps below and in `./deploy/kubernetes/ecr-login.sh`. Change the AWS region throughout if desired.
+
+## Examples
+
 Sample curl POST script:
 ```bash
 curl -w "\n" \
@@ -68,24 +76,20 @@ do
 done
 ```
 
-## Pre-requisites
-- Install Maven and Java 8
-- Install and configure AWS CLI 
-- Clone repo
-- Update `<aws-account-number>` with your real AWS account number in the deploy steps below and in `./deploy/kubernetes/ecr-login.sh`. Change the AWS region throughout if desired.
+## Deployment 
 
-## Run locally via Maven
+### Run locally via Maven
 - From project root, run: `./mvnw spring-boot:run`
 - Navigate to: `http://localhost:8080/tax-calc/`
 
-## Build Docker container 
+### Build Docker container 
 - From project root, run: `./mvnw clean package && docker build --tag=tax-calc .`
 
-## Run locally via Docker with Wildfly
+### Run locally via Docker with Wildfly
 - Run: `docker run -it -p 8080:8080 tax-calc`  
 - Navigate to: `http://localhost:8080/tax-calc/`
 
-## Deploy to Kubernetes with Wildfly
+### Deploy to Kubernetes with Wildfly
 - Push image to ECR:  
 `$(aws ecr get-login --no-include-email --region us-east-2)`  
 `docker tag tax-calc:latest <aws-account-number>.dkr.ecr.us-east-2.amazonaws.com/tax-calc:latest`  
@@ -95,7 +99,7 @@ done
 `kubectl apply -f deploy/kubernetes/kube-deploy.yaml`
 - Navigate to: `http://localhost:30001/tax-calc/`
 
-## Run X-Ray daemon locally for development:
+### Run X-Ray daemon locally for development:
 ```bash
 cd deploy/xray-local
 docker build -t xray-daemon .
@@ -109,7 +113,7 @@ docker run \
       xray-daemon -o
 ```
 
-## Deploy X-Ray daemon image to ECR
+### Deploy X-Ray daemon image to ECR
 - Push image to ECR:  
 `$(aws ecr get-login --no-include-email --region us-east-2)`  
 `docker tag xray-daemon:latest <aws-account-number>.dkr.ecr.us-east-2.amazonaws.com/xray-daemon:latest`  
