@@ -1,6 +1,11 @@
 # octank-tax-calc
 
-Bare-bones Spring Boot microservice used for demo purposes. Not supported - no warranty explicit or implied.
+Bare-bones Spring Boot microservice used for demo purposes. Not supported - no warranty explicit or implied. 
+
+This solution leverages:
+- Spring Boot 2.2.4.RELEASE
+- Java 1.8
+- JBoss Wildfly 18.0.1.Final (Formerly JBoss Application Server)
 
 API accepts cart item data with subtotal and returns tax rate and total tax.
 
